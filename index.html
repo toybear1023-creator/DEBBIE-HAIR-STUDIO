@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#10100f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>樲巷 x hair salon｜線上預約</title>
+<style>
+  :root {
+    --bg: #10100f;
+    --panel: #1a1916;
+    --panel2: #22201b;
+    --gold: #c9a96a;
+    --gold2: #e2c78f;
+    --txt: #f4efe5;
+    --muted: #a49b8b;
+    --line: #383329;
+    --green: #8bb69a;
+    --red: #d58d82;
+    --amber: #e09f5a;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    margin: 0;
+    background: radial-gradient(circle at top center, #1c1914 0%, var(--bg) 60%);
+    color: var(--txt);
+    font-family: -apple-system, BlinkMacSystemFont, "Noto Sans TC", "Segoe UI", Roboto, sans-serif;
+    padding-bottom: 96px;
+    line-height: 1.5;
+  }
+
+  /* 頂部標題區 */
+  header {
+    padding: 26px 20px 20px;
+    background: linear-gradient(165deg, #211d16 0%, #10100f 100%);
+    border-bottom: 1px solid var(--line);
+    text-align: center;
+    position: relative;
+  }
+  .sync-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--green);
+    background: rgba(139, 182, 154, 0.1);
+    border: 1px solid rgba(139, 182, 154, 0.28);
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+  .sync-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 6px var(--green);
+  }
+  .brand {
+    font-family: Georgia, "Noto Serif TC", serif;
+    letter-spacing: 3px;
+    color: var(--gold2);
+    font-size: 25px;
+    font-weight: 700;
+  }
+  .sub {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin-top: 5px;
+    text-transform: uppercase;
+  }
+  .welcome-banner {
+    margin: 14px auto 0;
+    max-width: 540px;
+    background: rgba(201, 169, 106, 0.1);
+    border: 1px solid rgba(201, 169, 106, 0.35);
+    color: var(--gold2);
+    font-size: 12px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    display: inline-block;
+  }
+
+  main {
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 20px 16px;
+  }
+
+  /* 步驟卡片 */
+  .step-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 20px 18px;
+    margin-bottom: 18px;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+  }
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .step-num {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold2), var(--gold));
+    color: #14120e;
+    font-size: 13px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--txt);
+  }
+
+  /* 服務項目清單 */
+  .service-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .service-item {
+    background: var(--panel2);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+  }
+  .service-item.selected {
+    border-color: var(--gold);
+    background: linear-gradient(145deg, #2e271b, #231e15);
+    box-shadow: 0 0 0 1px var(--gold);
+  }
+  .service-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .service-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--txt);
+  }
+  .service-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 5px;
+  }
+  .duration-tag {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--line);
+    color: var(--gold2);
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+  }
+  .service-desc {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 8px;
+    line-height: 1.55;
+  }
+  .service-price {
+    font-size: 16px;
+    font-weight: 750;
+    color: var(--gold2);
+    white-space: nowrap;
+  }
+  .check-circle {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1px solid var(--muted);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .service-item.selected .check-circle {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: #14120e;
+    font-weight: 800;
+  }
+
+  /* 表單與時段 */
+  label {
+    display: block;
+    font-size: 12px;
+    color: var(--gold2);
+    margin: 12px 0 6px;
+    font-weight: 500;
+  }
+  input, select, textarea {
+    width: 100%;
+    background: #12110f;
+    color: var(--txt);
+    border: 1px solid var(--line);
+    border-radius: 11px;
+    padding: 12px 13px;
+    font-size: 15px;
+    outline: none;
+    font-family: inherit;
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--gold); }
+
+  .time-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 9px;
+    margin-top: 8px;
+  }
+  @media (min-width: 520px) {
+    .time-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+  .time-btn {
+    background: var(--panel2);
+    border: 1px solid var(--line);
+    color: var(--txt);
+    padding: 11px 6px;
+    border-radius: 11px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+  }
+  .time-btn .slot-sub {
+    display: block;
+    font-size: 10px;
+    font-weight: 400;
+    color: var(--green);
+    margin-top: 2px;
+  }
+  .time-btn.selected {
+    background: #332b1c;
+    border-color: var(--gold);
+    color: var(--gold2);
+  }
+  .time-btn.selected .slot-sub { color: var(--gold2); }
+  .time-btn.booked {
+    opacity: 0.42;
+    cursor: not-allowed;
+    background: #151412;
+  }
+  .time-btn.booked .slot-sub { color: var(--red); }
+
+  /* 摘要框與按鈕 */
+  .summary-box {
+    background: #151411;
+    border: 1px dashed var(--gold);
+    border-radius: 13px;
+    padding: 14px 15px;
+    margin-top: 16px;
+    font-size: 13px;
+  }
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    gap: 10px;
+  }
+  .summary-row:last-child { margin-bottom: 0; }
+
+  button.primary-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--gold2), var(--gold));
+    color: #17140e;
+    border: none;
+    border-radius: 12px;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: 750;
+    cursor: pointer;
+    margin-top: 16px;
+    letter-spacing: 1px;
+  }
+  button.primary-btn:disabled { opacity: 0.5; cursor: wait; }
+  button.secondary-btn {
+    width: 100%;
+    background: transparent;
+    color: var(--gold2);
+    border: 1px solid var(--gold);
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  button.danger-btn {
+    background: transparent;
+    color: var(--red);
+    border: 1px solid #75443d;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  button.success-btn {
+    background: rgba(139, 182, 154, 0.15);
+    color: var(--green);
+    border: 1px solid var(--green);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  button.edit-btn {
+    background: var(--panel2);
+    color: var(--gold2);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+
+  /* 預約成功電子憑證卡 */
+  #confirmView { display: none; }
+  .ticket {
+    background: linear-gradient(155deg, #242019 0%, #161512 100%);
+    border: 1px solid var(--gold);
+    border-radius: 20px;
+    padding: 24px 20px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+  }
+  .ticket-badge {
+    display: inline-block;
+    background: rgba(139, 182, 154, 0.15);
+    color: var(--green);
+    border: 1px solid var(--green);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+  .ticket-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
+    gap: 12px;
+  }
+  .ticket-row:last-child { border-bottom: none; }
+  .ticket-label { color: var(--muted); white-space: nowrap; }
+  .ticket-val { font-weight: 600; text-align: right; color: var(--txt); }
+
+  /* 右下角管理後台按鈕與彈窗 */
+  .admin-trigger {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    background: rgba(26, 25, 22, 0.92);
+    border: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 11px;
+    padding: 7px 13px;
+    border-radius: 20px;
+    cursor: pointer;
+    z-index: 20;
+    backdrop-filter: blur(6px);
+  }
+  .modal-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 50;
+    overflow-y: auto;
+    padding: 14px;
+  }
+  .modal-card {
+    background: var(--panel);
+    border: 1px solid var(--gold);
+    border-radius: 18px;
+    max-width: 600px;
+    margin: 14px auto;
+    padding: 20px;
+  }
+  .admin-tabs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin: 14px 0;
+  }
+  .admin-tab {
+    background: var(--panel2);
+    border: 1px solid var(--line);
+    color: var(--muted);
+    padding: 9px 4px;
+    border-radius: 9px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+  }
+  .admin-tab.active {
+    background: #332b1c;
+    border-color: var(--gold);
+    color: var(--gold2);
+  }
+  .admin-pane { display: none; }
+  .admin-pane.active { display: block; }
+  .inline-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .admin-list-item {
+    background: var(--panel2);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 13px;
+    margin-bottom: 9px;
+  }
+  .row-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+  .status-pill {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+  }
+  .status-pill.pending {
+    background: rgba(224, 159, 90, 0.16);
+    color: var(--amber);
+    border: 1px solid rgba(224, 159, 90, 0.4);
+  }
+  .status-pill.confirmed {
+    background: rgba(139, 182, 154, 0.16);
+    color: var(--green);
+    border: 1px solid rgba(139, 182, 154, 0.4);
+  }
+  .notice-box {
+    background: #262117;
+    border: 1px solid #6b5836;
+    color: #e2cfa6;
+    font-size: 12px;
+    padding: 12px;
+    border-radius: 10px;
+    margin-top: 10px;
+    line-height: 1.6;
+  }
+
+  /* 自訂彈窗與輕提示 */
+  .dialog-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.78);
+    backdrop-filter: blur(4px);
+    z-index: 80;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+  }
+  .dialog-backdrop.open { display: flex; }
+  .dialog-box {
+    background: var(--panel);
+    border: 1px solid var(--gold);
+    border-radius: 16px;
+    padding: 20px;
+    width: 100%;
+    max-width: 380px;
+  }
+  .toast {
+    position: fixed;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-16px);
+    background: #2b2419;
+    border: 1px solid var(--gold);
+    color: var(--gold2);
+    padding: 9px 18px;
+    border-radius: 24px;
+    font-size: 13px;
+    font-weight: 600;
+    z-index: 90;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.25s;
+    white-space: nowrap;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="toast" id="toastMsg">操作成功</div>
+
+<header>
+  <div class="sync-status" id="cloudStatusBadge">
+    <span class="sync-dot"></span>
+    <span id="cloudStatusText">● 線上即時同步中</span>
+  </div>
+  <div class="brand" id="headerTitle">樲巷 x hair salon</div>
+  <div class="sub" id="headerSubtitle">DEBBIE HAIR STUDIO · ONLINE BOOKING</div>
+  <div class="welcome-banner" id="headerNotice">主理人 黛比｜採完全預約制，為您保留專屬質感時光</div>
+</header>
+
+<main>
+  <!-- 預約表單區 -->
+  <div id="bookingFormView">
+    <!-- 步驟 1 -->
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-num">1</div>
+        <div class="step-title">選擇預約服務（可複選）</div>
+      </div>
+      <div class="service-list" id="clientServiceList"></div>
+    </div>
+
+    <!-- 步驟 2 -->
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-num">2</div>
+        <div class="step-title">選擇預約日期與時段</div>
+      </div>
+      <label>預約日期</label>
+      <input type="date" id="bookDate" onchange="renderTimeSlots()">
+      <div id="closedDayMsg" style="display:none; color:var(--red); font-size:13px; margin-top:10px;">
+        ⚠ 該日期為工作室公休日，請選擇其他日期。
+      </div>
+      <label>可預約時段（已預約時段將自動鎖定）</label>
+      <div class="time-grid" id="timeSlots"></div>
+    </div>
+
+    <!-- 步驟 3 -->
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-num">3</div>
+        <div class="step-title">填寫聯絡資訊</div>
+      </div>
+      <label>您的姓名 / 暱稱 *</label>
+      <input type="text" id="clientName" placeholder="例如：林小姐">
+      <label>聯絡電話 *</label>
+      <input type="tel" id="clientPhone" inputmode="tel" placeholder="09xx-xxx-xxx">
+      <label>髮況與需求備註（選填）</label>
+      <textarea id="clientNote" rows="2" placeholder="例如：髮尾有漂過、想預約剪髮加護髮"></textarea>
+
+      <div class="summary-box">
+        <div class="summary-row">
+          <span style="color:var(--muted)">已選項目：</span>
+          <span id="sumItems" style="font-weight:600; text-align:right;">尚未選擇</span>
+        </div>
+        <div class="summary-row">
+          <span style="color:var(--muted)">預估總時長：</span>
+          <span id="sumDuration" style="color:var(--txt);">0 分鐘</span>
+        </div>
+        <div class="summary-row">
+          <span style="color:var(--muted)">預估金額：</span>
+          <span id="sumPrice" style="color:var(--gold2); font-weight:750; font-size:16px;">$0</span>
+        </div>
+      </div>
+
+      <button class="primary-btn" id="submitBtn" onclick="submitBooking()">確認送出預約 ✓</button>
+    </div>
+  </div>
+
+  <!-- 預約完成電子憑證卡 -->
+  <div id="confirmView">
+    <div class="ticket">
+      <div class="ticket-badge">✓ 預約已即時同步至工作室系統</div>
+      <h2 style="margin:0 0 6px; font-size:20px; color:var(--gold2);" id="ticketStudioName">樲巷 x hair salon</h2>
+      <p style="margin:0 0 14px; font-size:12px; color:var(--muted);">您的時段已為您保留登記！建議點擊下方按鈕複製預約明細並傳送至官方 LINE 雙向確認。</p>
+      
+      <div class="ticket-row"><span class="ticket-label">預約貴賓</span><span class="ticket-val" id="tName"></span></div>
+      <div class="ticket-row"><span class="ticket-label">聯絡電話</span><span class="ticket-val" id="tPhone"></span></div>
+      <div class="ticket-row"><span class="ticket-label">預約時間</span><span class="ticket-val" style="color:var(--gold2);" id="tDateTime"></span></div>
+      <div class="ticket-row"><span class="ticket-label">服務內容</span><span class="ticket-val" id="tServices"></span></div>
+      <div class="ticket-row"><span class="ticket-label">預估時長</span><span class="ticket-val" id="tDuration"></span></div>
+      <div class="ticket-row"><span class="ticket-label">預估金額</span><span class="ticket-val" style="color:var(--gold2); font-size:16px;" id="tPrice"></span></div>
+      <div class="ticket-row" id="tNoteRow"><span class="ticket-label">備註事項</span><span class="ticket-val" id="tNote"></span></div>
+
+      <button class="primary-btn" onclick="copyBookingText()">📋 複製預約明細（傳送至官方 LINE）</button>
+      <button class="secondary-btn" onclick="resetBookingForm()">返回 / 新增另一筆預約</button>
+    </div>
+  </div>
+</main>
+
+<!-- 右下角管理後台入口 -->
+<button class="admin-trigger" onclick="openAdminAuth()">⚙ 黛比管理後台</button>
+
+<!-- 後台管理彈窗 -->
+<div class="modal-backdrop" id="adminModal">
+  <div class="modal-card">
+    <div class="row-between">
+      <h2 style="margin:0; font-size:18px; color:var(--gold2);">👑 黛比工作室管理後台</h2>
+      <button class="danger-btn" onclick="closeAdminModal()">關閉</button>
+    </div>
+
+    <div class="admin-tabs">
+      <button class="admin-tab active" onclick="switchAdminTab('tabBookings', this)">預約名單</button>
+      <button class="admin-tab" onclick="switchAdminTab('tabServices', this)">服務項目</button>
+      <button class="admin-tab" onclick="switchAdminTab('tabHeader', this)">抬頭設定</button>
+      <button class="admin-tab" onclick="switchAdminTab('tabSchedule', this)">公休與密碼</button>
+    </div>
+
+    <!-- 分頁 1：預約名單 -->
+    <div id="tabBookings" class="admin-pane active">
+      <div class="row-between" style="margin-bottom:10px;">
+        <span style="font-size:13px; color:var(--muted);">即時接收所有客人預約（按日期排序）</span>
+        <span style="font-size:12px; color:var(--gold2); font-weight:600;" id="adminBookingCount">共 0 筆</span>
+      </div>
+      <div id="adminBookingList"></div>
+    </div>
+
+    <!-- 分頁 2：服務項目管理 -->
+    <div id="tabServices" class="admin-pane">
+      <div style="background:var(--panel2); border:1px solid var(--line); border-radius:12px; padding:12px; margin-bottom:14px;">
+        <div style="font-size:13px; font-weight:600; color:var(--gold2); margin-bottom:6px;" id="serviceFormTitle">＋ 新增服務項目</div>
+        <input type="hidden" id="editServiceId">
+        <label style="margin-top:6px;">服務名稱 *</label>
+        <input type="text" id="svcName" placeholder="例如：質感單色染髮">
+        <div class="inline-2">
+          <div>
+            <label>價格 (TWD) *</label>
+            <input type="number" id="svcPrice" placeholder="例如：2800">
+          </div>
+          <div>
+            <label>預估時間 (分鐘) *</label>
+            <input type="number" id="svcDuration" placeholder="例如：120">
+          </div>
+        </div>
+        <label>服務內容說明</label>
+        <textarea id="svcDesc" rows="2" placeholder="例如：含頭皮隔離、染前基礎護理與造型吹整"></textarea>
+        <div class="inline-2" style="margin-top:10px;">
+          <button class="primary-btn" style="margin-top:0; padding:10px; font-size:14px;" onclick="saveServiceItem()">儲存並即時同步</button>
+          <button class="secondary-btn" style="margin-top:0; padding:10px; font-size:14px;" onclick="clearServiceForm()">清除重填</button>
+        </div>
+      </div>
+      <div id="adminServiceList"></div>
+    </div>
+
+    <!-- 分頁 3：抬頭設定 -->
+    <div id="tabHeader" class="admin-pane">
+      <label>工作室主標題</label>
+      <input type="text" id="cfgTitle">
+      <label>英文副標題 / 標語</label>
+      <input type="text" id="cfgSubtitle">
+      <label>歡迎公告 / 提醒橫幅文字</label>
+      <textarea id="cfgNotice" rows="3"></textarea>
+      <button class="primary-btn" onclick="saveHeaderConfig()">儲存抬頭設定</button>
+    </div>
+
+    <!-- 分頁 4：公休日與管理密碼 -->
+    <div id="tabSchedule" class="admin-pane">
+      <label>新增公休日（客人將無法選擇該日期）</label>
+      <div style="display:flex; gap:8px;">
+        <input type="date" id="newClosedDate">
+        <button class="primary-btn" style="margin-top:0; width:auto; padding:0 16px; white-space:nowrap;" onclick="addClosedDate()">新增公休</button>
+      </div>
+      <div id="closedDateList" style="margin-top:10px;"></div>
+
+      <hr style="border:0; border-top:1px solid var(--line); margin:16px 0;">
+      <label>設定新後台管理密碼（預設 0000，至少 4 碼）</label>
+      <input type="password" id="newAdminPin" placeholder="輸入新密碼">
+      <label>再次確認新密碼</label>
+      <input type="password" id="confirmAdminPin" placeholder="再次輸入新密碼">
+      <button class="primary-btn" onclick="updateAdminPin()">更新管理密碼</button>
+    </div>
+  </div>
+</div>
+
+<!-- 自訂對話框 (取代原生 alert/confirm/prompt) -->
+<div class="dialog-backdrop" id="customDialog">
+  <div class="dialog-box">
+    <div style="font-size:17px; font-weight:700; color:var(--gold2); margin-bottom:10px;" id="dlgTitle">提示</div>
+    <div style="font-size:14px; color:var(--txt); line-height:1.6; margin-bottom:16px;" id="dlgBody"></div>
+    <div style="display:flex; gap:8px;" id="dlgActions"></div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+import { getFirestore, doc, setDoc, addDoc, updateDoc, deleteDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+const DEFAULT_CONFIG = {
+  pin: '0000',
+  header: {
+    title: '樲巷 x hair salon',
+    subtitle: 'DEBBIE HAIR STUDIO · ONLINE BOOKING',
+    notice: '主理人 黛比｜採完全預約制，為您保留專屬質感時光'
+  },
+  services: [
+    { id: 'sv1', name: '精緻洗髮＋頭皮舒壓', price: 450, duration: 45, desc: '含深層清潔洗髮、肩頸熱敷舒緩與造型吹整。' },
+    { id: 'sv2', name: '設計剪髮（含洗吹）', price: 800, duration: 60, desc: '一對一頭型與臉型輪廓溝通設計，含精緻洗髮與居家整理教學。' },
+    { id: 'sv3', name: '質感單色染髮', price: 2800, duration: 150, desc: '含染前頭皮隔離防護、日系低敏染膏與基礎鎖色護髮（依髮長微調）。' },
+    { id: 'sv4', name: '韓系溫塑燙 / 氣墊燙', price: 3200, duration: 180, desc: '含燙前髮質評估、造型剪裁與燙中結構修護（依髮長微調）。' },
+    { id: 'sv5', name: '深層結構式護髮', price: 1500, duration: 60, desc: '針對染燙受損髮質補充胺基酸與角蛋白，重現水潤光澤感。' }
+  ],
+  closedDates: []
+};
+
+const TIME_SLOTS = ['11:00', '12:30', '14:00', '15:30', '17:00', '18:30', '19:30'];
+const LOCAL_CFG_KEY = 'exiang_salon_cfg_fallback_v1';
+const LOCAL_BKG_KEY = 'exiang_salon_bkg_fallback_v1';
+
+let appData = loadLocalConfig();
+let bookingsList = loadLocalBookings();
+let selectedServiceIds = [];
+let selectedDate = '';
+let selectedTime = '';
+let lastBookingText = '';
+
+// Firebase 狀態變數
+let db = null;
+let auth = null;
+let useCloud = false;
+const appId = typeof __app_id !== 'undefined' ? __app_id : 'exiang-hair-salon';
+
+function loadLocalConfig() {
+  try {
+    const raw = localStorage.getItem(LOCAL_CFG_KEY);
+    if (!raw) return JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+    const parsed = JSON.parse(raw);
+    return {
+      pin: parsed.pin || '0000',
+      header: { ...DEFAULT_CONFIG.header, ...(parsed.header || {}) },
+      services: Array.isArray(parsed.services) ? parsed.services : DEFAULT_CONFIG.services,
+      closedDates: Array.isArray(parsed.closedDates) ? parsed.closedDates : []
+    };
+  } catch (e) {
+    return JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+  }
+}
+
+function loadLocalBookings() {
+  try {
+    return JSON.parse(localStorage.getItem(LOCAL_BKG_KEY)) || [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveLocalFallback() {
+  localStorage.setItem(LOCAL_CFG_KEY, JSON.stringify(appData));
+  localStorage.setItem(LOCAL_BKG_KEY, JSON.stringify(bookingsList));
+}
+
+// 初始化 Firebase 雲端同步
+async function initCloudSync() {
+  try {
+    if (typeof __firebase_config === 'undefined' || !__firebase_config) {
+      setSyncUI(false);
+      return;
+    }
+    const firebaseConfig = JSON.parse(__firebase_config);
+    const app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    db = getFirestore(app);
+
+    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+      await signInWithCustomToken(auth, __initial_auth_token);
+    } else {
+      await signInAnonymously(auth);
+    }
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) return;
+      useCloud = true;
+      setSyncUI(true);
+
+      // 監聽工作室設定（抬頭、服務項目、公休日、密碼）
+      const cfgDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'salon_config', 'main');
+      onSnapshot(cfgDocRef, (snap) => {
+        if (snap.exists()) {
+          const data = snap.data();
+          appData = {
+            pin: data.pin || '0000',
+            header: { ...DEFAULT_CONFIG.header, ...(data.header || {}) },
+            services: Array.isArray(data.services) ? data.services : DEFAULT_CONFIG.services,
+            closedDates: Array.isArray(data.closedDates) ? data.closedDates : []
+          };
+          saveLocalFallback();
+          refreshAllUI();
+        } else {
+          // 首次建立預設設定至雲端
+          setDoc(cfgDocRef, appData).catch(() => {});
+        }
+      }, () => setSyncUI(false));
+
+      // 監聽所有預約紀錄（即時更新已約滿時段與後台名單）
+      const bkgColRef = collection(db, 'artifacts', appId, 'public', 'data', 'salon_bookings');
+      onSnapshot(bkgColRef, (snapshot) => {
+        const list = [];
+        snapshot.forEach((docSnap) => {
+          list.push({ id: docSnap.id, ...docSnap.data() });
+        });
+        // 依日期與時段排序
+        list.sort((a, b) => `${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`));
+        bookingsList = list;
+        saveLocalFallback();
+        renderTimeSlots();
+        renderAdminBookings();
+      }, () => setSyncUI(false));
+    });
+  } catch (err) {
+    setSyncUI(false);
+  }
+}
+
+function setSyncUI(isCloud) {
+  const txt = document.getElementById('cloudStatusText');
+  const dot = document.querySelector('.sync-dot');
+  if (isCloud) {
+    txt.textContent = '● 線上即時同步中';
+    dot.style.background = 'var(--green)';
+  } else {
+    txt.textContent = '● 本機離線模式';
+    dot.style.background = 'var(--gold)';
+  }
+}
+
+async function persistConfig() {
+  saveLocalFallback();
+  if (useCloud && db) {
+    try {
+      const cfgDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'salon_config', 'main');
+      await setDoc(cfgDocRef, appData);
+    } catch (e) {}
+  }
+}
+
+// --- 工具函式 ---
+function esc(str) {
+  return String(str ?? '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
+function formatDuration(mins) {
+  const m = Number(mins) || 0;
+  if (m < 60) return `${m} 分鐘`;
+  const h = Math.floor(m / 60);
+  const rem = m % 60;
+  return rem === 0 ? `${h} 小時` : `${h} 小時 ${rem} 分鐘`;
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toastMsg');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+function uiAlert(title, html) {
+  return new Promise(resolve => {
+    const dlg = document.getElementById('customDialog');
+    document.getElementById('dlgTitle').textContent = title;
+    document.getElementById('dlgBody').innerHTML = html;
+    document.getElementById('dlgActions').innerHTML = `<button class="primary-btn" style="margin-top:0" id="dlgOk">確定</button>`;
+    dlg.classList.add('open');
+    document.getElementById('dlgOk').onclick = () => { dlg.classList.remove('open'); resolve(true); };
+  });
+}
+
+function uiConfirm(title, html, okText = '確定', isDanger = false) {
+  return new Promise(resolve => {
+    const dlg = document.getElementById('customDialog');
+    document.getElementById('dlgTitle').textContent = title;
+    document.getElementById('dlgBody').innerHTML = html;
+    document.getElementById('dlgActions').innerHTML = `
+      <button class="secondary-btn" style="margin-top:0;flex:1" id="dlgCancel">取消</button>
+      <button class="${isDanger ? 'danger-btn' : 'primary-btn'}" style="margin-top:0;flex:1;padding:12px" id="dlgOk">${okText}</button>
+    `;
+    dlg.classList.add('open');
+    document.getElementById('dlgCancel').onclick = () => { dlg.classList.remove('open'); resolve(false); };
+    document.getElementById('dlgOk').onclick = () => { dlg.classList.remove('open'); resolve(true); };
+  });
+}
+
+function uiPromptPin() {
+  return new Promise(resolve => {
+    const dlg = document.getElementById('customDialog');
+    document.getElementById('dlgTitle').textContent = '黛比後台驗證';
+    document.getElementById('dlgBody').innerHTML = `
+      <div style="margin-bottom:8px;color:var(--muted)">請輸入管理密碼（預設為 0000）：</div>
+      <input id="pinField" type="password" inputmode="numeric" placeholder="輸入密碼">
+    `;
+    document.getElementById('dlgActions').innerHTML = `
+      <button class="secondary-btn" style="margin-top:0;flex:1" id="dlgCancel">取消</button>
+      <button class="primary-btn" style="margin-top:0;flex:1" id="dlgOk">進入後台</button>
+    `;
+    dlg.classList.add('open');
+    setTimeout(() => document.getElementById('pinField').focus(), 60);
+    document.getElementById('dlgCancel').onclick = () => { dlg.classList.remove('open'); resolve(null); };
+    document.getElementById('dlgOk').onclick = () => {
+      const val = document.getElementById('pinField').value;
+      dlg.classList.remove('open');
+      resolve(val);
+    };
+  });
+}
+
+// --- 畫面渲染 ---
+function refreshAllUI() {
+  renderHeader();
+  renderClientServices();
+  renderTimeSlots();
+  updateSummary();
+  if (document.getElementById('adminModal').style.display === 'block') {
+    renderAdminServices();
+    renderClosedDates();
+    renderAdminBookings();
+  }
+}
+
+function renderHeader() {
+  document.getElementById('headerTitle').textContent = appData.header.title;
+  document.getElementById('headerSubtitle').textContent = appData.header.subtitle;
+  const noticeEl = document.getElementById('headerNotice');
+  if (appData.header.notice && appData.header.notice.trim()) {
+    noticeEl.textContent = appData.header.notice;
+    noticeEl.style.display = 'inline-block';
+  } else {
+    noticeEl.style.display = 'none';
+  }
+  document.title = `${appData.header.title}｜線上預約`;
+  document.getElementById('ticketStudioName').textContent = appData.header.title;
+}
+
+function renderClientServices() {
+  const container = document.getElementById('clientServiceList');
+  if (!appData.services.length) {
+    container.innerHTML = '<div style="color:var(--muted); font-size:13px; text-align:center; padding:16px;">目前尚未設定服務項目，請由後台新增。</div>';
+    return;
+  }
+  container.innerHTML = appData.services.map(s => {
+    const isSelected = selectedServiceIds.includes(s.id);
+    return `
+      <div class="service-item ${isSelected ? 'selected' : ''}" onclick="toggleService('${s.id}')">
+        <div class="service-top">
+          <div>
+            <div class="service-name">${esc(s.name)}</div>
+            <div class="service-meta">
+              <span class="duration-tag">⏱ 預估 ${formatDuration(s.duration)}</span>
+            </div>
+          </div>
+          <div style="text-align:right;">
+            <span class="service-price">$${Number(s.price).toLocaleString()}</span>
+            <span class="check-circle">${isSelected ? '✓' : ''}</span>
+          </div>
+        </div>
+        ${s.desc ? `<div class="service-desc">${esc(s.desc)}</div>` : ''}
+      </div>
+    `;
+  }).join('');
+}
+
+window.toggleService = function(id) {
+  const idx = selectedServiceIds.indexOf(id);
+  if (idx >= 0) selectedServiceIds.splice(idx, 1);
+  else selectedServiceIds.push(id);
+  renderClientServices();
+  updateSummary();
+};
+
+window.renderTimeSlots = function() {
+  const dateVal = document.getElementById('bookDate').value;
+  const closedMsg = document.getElementById('closedDayMsg');
+  const slotsContainer = document.getElementById('timeSlots');
+
+  if (appData.closedDates.includes(dateVal)) {
+    closedMsg.style.display = 'block';
+    slotsContainer.innerHTML = '';
+    selectedTime = '';
+    return;
+  }
+  closedMsg.style.display = 'none';
+
+  // 找出該日期已被預約的時段
+  const bookedTimesOnDate = bookingsList
+    .filter(b => b.date === dateVal)
+    .map(b => b.time);
+
+  if (bookedTimesOnDate.includes(selectedTime)) {
+    selectedTime = '';
+  }
+
+  slotsContainer.innerHTML = TIME_SLOTS.map(t => {
+    const isBooked = bookedTimesOnDate.includes(t);
+    const isSel = selectedTime === t && !isBooked;
+    return `
+      <button type="button"
+              class="time-btn ${isBooked ? 'booked' : ''} ${isSel ? 'selected' : ''}"
+              ${isBooked ? 'disabled' : `onclick="selectTime('${t}')"`}>
+        ${t}
+        <span class="slot-sub">${isBooked ? '已約滿' : '可預約'}</span>
+      </button>
+    `;
+  }).join('');
+};
+
+window.selectTime = function(t) {
+  selectedTime = t;
+  renderTimeSlots();
+};
+
+function updateSummary() {
+  const chosen = appData.services.filter(s => selectedServiceIds.includes(s.id));
+  const totalPrice = chosen.reduce((sum, s) => sum + Number(s.price || 0), 0);
+  const totalMins = chosen.reduce((sum, s) => sum + Number(s.duration || 0), 0);
+
+  document.getElementById('sumItems').textContent = chosen.length ? chosen.map(s => s.name).join('、') : '尚未選擇';
+  document.getElementById('sumDuration').textContent = formatDuration(totalMins);
+  document.getElementById('sumPrice').textContent = `$${totalPrice.toLocaleString()}`;
+}
+
+// --- 送出預約 ---
+window.submitBooking = async function() {
+  const chosen = appData.services.filter(s => selectedServiceIds.includes(s.id));
+  const dateVal = document.getElementById('bookDate').value;
+  const name = document.getElementById('clientName').value.trim();
+  const phone = document.getElementById('clientPhone').value.trim();
+  const note = document.getElementById('clientNote').value.trim();
+
+  if (!chosen.length) {
+    await uiAlert('尚未選擇服務', '請先勾選至少一項您想預約的美髮服務。');
+    return;
+  }
+  if (!dateVal || appData.closedDates.includes(dateVal)) {
+    await uiAlert('日期不可預約', '請選擇有效的營業日期。');
+    return;
+  }
+  if (!selectedTime) {
+    await uiAlert('尚未選擇時段', '請點選一個可預約的時段。');
+    return;
+  }
+  if (!name) {
+    await uiAlert('請填寫姓名', '請輸入您的姓名或稱呼，方便黛比為您登記。');
+    return;
+  }
+  if (!phone) {
+    await uiAlert('請填寫電話', '請留下聯絡電話，方便工作室與您聯繫。');
+    return;
+  }
+
+  // 再次防呆確認該時段是否剛被訂走
+  const isTaken = bookingsList.some(b => b.date === dateVal && b.time === selectedTime);
+  if (isTaken) {
+    await uiAlert('此時段剛被預約', '抱歉，此時段剛剛已被其他客人預約，請重新選擇其他時段。');
+    renderTimeSlots();
+    return;
+  }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = '正在同步預約...';
+
+  const totalPrice = chosen.reduce((sum, s) => sum + Number(s.price || 0), 0);
+  const totalMins = chosen.reduce((sum, s) => sum + Number(s.duration || 0), 0);
+  const serviceNames = chosen.map(s => s.name).join('、');
+  const serviceDetailText = chosen.map(s => `${s.name} ($${s.price})`).join('、');
+
+  const newBooking = {
+    name,
+    phone,
+    date: dateVal,
+    time: selectedTime,
+    services: serviceNames,
+    duration: formatDuration(totalMins),
+    price: totalPrice,
+    note,
+    status: 'pending',
+    createdAt: new Date().toISOString()
+  };
+
+  try {
+    if (useCloud && db) {
+      const bkgColRef = collection(db, 'artifacts', appId, 'public', 'data', 'salon_bookings');
+      await addDoc(bkgColRef, newBooking);
+    } else {
+      bookingsList.push({ id: 'local_' + Date.now(), ...newBooking });
+      bookingsList.sort((a, b) => `${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`));
+      saveLocalFallback();
+      renderTimeSlots();
+    }
+
+    // 填入確認憑證卡
+    document.getElementById('tName').textContent = name;
+    document.getElementById('tPhone').textContent = phone;
+    document.getElementById('tDateTime').textContent = `${dateVal} ${selectedTime}`;
+    document.getElementById('tServices').textContent = serviceNames;
+    document.getElementById('tDuration').textContent = formatDuration(totalMins);
+    document.getElementById('tPrice').textContent = `$${totalPrice.toLocaleString()} 起`;
+    
+    if (note) {
+      document.getElementById('tNoteRow').style.display = 'flex';
+      document.getElementById('tNote').textContent = note;
+    } else {
+      document.getElementById('tNoteRow').style.display = 'none';
+    }
+
+    lastBookingText = `【${appData.header.title} 線上預約單】\n` +
+      `・預約貴賓：${name}\n` +
+      `・聯絡電話：${phone}\n` +
+      `・預約時間：${dateVal} ${selectedTime}\n` +
+      `・預約項目：${serviceDetailText}\n` +
+      `・預估時長：${formatDuration(totalMins)}\n` +
+      `・預估金額：$${totalPrice.toLocaleString()}\n` +
+      (note ? `・備註需求：${note}\n` : '') +
+      `我已完成線上預約登記，再請黛比協助確認時段，謝謝！`;
+
+    document.getElementById('bookingFormView').style.display = 'none';
+    document.getElementById('confirmView').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '確認送出預約 ✓';
+  }
+};
+
+window.copyBookingText = function() {
+  const ta = document.createElement('textarea');
+  ta.value = lastBookingText;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  showToast('📋 已複製預約明細！請貼上至 LINE 傳送');
+};
+
+window.resetBookingForm = function() {
+  selectedServiceIds = [];
+  selectedTime = '';
+  document.getElementById('clientName').value = '';
+  document.getElementById('clientPhone').value = '';
+  document.getElementById('clientNote').value = '';
+  renderClientServices();
+  renderTimeSlots();
+  updateSummary();
+  document.getElementById('confirmView').style.display = 'none';
+  document.getElementById('bookingFormView').style.display = 'block';
+};
+
+// ================= 後台管理功能 =================
+
+window.openAdminAuth = async function() {
+  const inputPin = await uiPromptPin();
+  if (inputPin === null) return;
+  if (inputPin !== appData.pin) {
+    await uiAlert('密碼錯誤', '輸入的管理密碼不正確，請重新確認。');
+    return;
+  }
+  document.getElementById('cfgTitle').value = appData.header.title;
+  document.getElementById('cfgSubtitle').value = appData.header.subtitle;
+  document.getElementById('cfgNotice').value = appData.header.notice;
+  clearServiceForm();
+  renderAdminBookings();
+  renderAdminServices();
+  renderClosedDates();
+  document.getElementById('adminModal').style.display = 'block';
+};
+
+window.closeAdminModal = function() {
+  document.getElementById('adminModal').style.display = 'none';
+};
+
+window.switchAdminTab = function(tabId, btn) {
+  document.querySelectorAll('.admin-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  btn.classList.add('active');
+};
+
+// Tab 1: 預約名單管理
+function renderAdminBookings() {
+  const list = document.getElementById('adminBookingList');
+  document.getElementById('adminBookingCount').textContent = `共 ${bookingsList.length} 筆`;
+  if (!bookingsList.length) {
+    list.innerHTML = '<div style="text-align:center;color:var(--muted);font-size:13px;padding:24px;">目前尚無任何線上預約紀錄</div>';
+    return;
+  }
+  list.innerHTML = bookingsList.map(b => {
+    const isConfirmed = b.status === 'confirmed';
+    return `
+      <div class="admin-list-item">
+        <div class="row-between">
+          <div>
+            <strong style="color:var(--gold2); font-size:15px;">${esc(b.date)} ${esc(b.time)}</strong>
+            <span style="margin-left:6px; font-weight:700;">${esc(b.name)}</span>
+          </div>
+          <span class="status-pill ${isConfirmed ? 'confirmed' : 'pending'}">
+            ${isConfirmed ? '✓ 已確認' : '待確認'}
+          </span>
+        </div>
+        <div style="font-size:13px; margin-top:5px;">
+          電話：<a href="tel:${esc(b.phone)}" style="color:var(--gold2); text-decoration:underline;">${esc(b.phone)}</a>
+        </div>
+        <div style="font-size:12px; color:var(--txt); margin-top:4px;">
+          項目：${esc(b.services)}（${esc(b.duration)} / $${Number(b.price).toLocaleString()}）
+        </div>
+        ${b.note ? `<div style="font-size:12px; color:var(--muted); margin-top:3px;">備註：${esc(b.note)}</div>` : ''}
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:10px;">
+          ${!isConfirmed ? `<button class="success-btn" onclick="confirmBookingItem('${b.id}')">✓ 標記已確認</button>` : ''}
+          <button class="danger-btn" onclick="deleteBookingItem('${b.id}')">取消 / 刪除</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+window.confirmBookingItem = async function(id) {
+  if (useCloud && db) {
+    try {
+      await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'salon_bookings', id), { status: 'confirmed' });
+      showToast('已標記為確認預約');
+    } catch (e) {}
+  } else {
+    const item = bookingsList.find(b => b.id === id);
+    if (item) item.status = 'confirmed';
+    saveLocalFallback();
+    renderAdminBookings();
+    showToast('已標記為確認預約');
+  }
+};
+
+window.deleteBookingItem = async function(id) {
+  const ok = await uiConfirm('取消預約確認', '確定要取消並刪除此筆預約嗎？刪除後該時段將立即重新開放給客人預約。', '確定刪除', true);
+  if (!ok) return;
+  if (useCloud && db) {
+    try {
+      await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'salon_bookings', id));
+      showToast('已刪除預約並釋出時段');
+    } catch (e) {}
+  } else {
+    bookingsList = bookingsList.filter(b => b.id !== id);
+    saveLocalFallback();
+    renderAdminBookings();
+    renderTimeSlots();
+    showToast('已刪除預約並釋出時段');
+  }
+};
+
+// Tab 2: 服務項目管理
+function renderAdminServices() {
+  const list = document.getElementById('adminServiceList');
+  list.innerHTML = appData.services.map(s => `
+    <div class="admin-list-item">
+      <div class="row-between">
+        <div>
+          <strong style="color:var(--txt); font-size:14px;">${esc(s.name)}</strong>
+          <div style="font-size:12px; color:var(--gold2); margin-top:2px;">
+            $${Number(s.price).toLocaleString()} · ⏱ ${formatDuration(s.duration)}
+          </div>
+        </div>
+        <div style="display:flex; gap:6px;">
+          <button class="edit-btn" onclick="editServiceItem('${s.id}')">編輯</button>
+          <button class="danger-btn" onclick="deleteServiceItem('${s.id}')">刪除</button>
+        </div>
+      </div>
+      ${s.desc ? `<div style="font-size:12px; color:var(--muted); margin-top:6px;">${esc(s.desc)}</div>` : ''}
+    </div>
+  `).join('');
+}
+
+window.editServiceItem = function(id) {
+  const item = appData.services.find(s => s.id === id);
+  if (!item) return;
+  document.getElementById('serviceFormTitle').textContent = `✎ 編輯服務：${item.name}`;
+  document.getElementById('editServiceId').value = item.id;
+  document.getElementById('svcName').value = item.name;
+  document.getElementById('svcPrice').value = item.price;
+  document.getElementById('svcDuration').value = item.duration;
+  document.getElementById('svcDesc').value = item.desc || '';
+};
+
+window.clearServiceForm = function() {
+  document.getElementById('serviceFormTitle').textContent = '＋ 新增服務項目';
+  document.getElementById('editServiceId').value = '';
+  document.getElementById('svcName').value = '';
+  document.getElementById('svcPrice').value = '';
+  document.getElementById('svcDuration').value = '';
+  document.getElementById('svcDesc').value = '';
+};
+
+window.saveServiceItem = async function() {
+  const editId = document.getElementById('editServiceId').value;
+  const name = document.getElementById('svcName').value.trim();
+  const price = Number(document.getElementById('svcPrice').value);
+  const duration = Number(document.getElementById('svcDuration').value);
+  const desc = document.getElementById('svcDesc').value.trim();
+
+  if (!name || isNaN(price) || price < 0 || !duration || duration <= 0) {
+    await uiAlert('資料不完整', '請填寫服務名稱、正確價格與預估分鐘數。');
+    return;
+  }
+
+  if (editId) {
+    const idx = appData.services.findIndex(s => s.id === editId);
+    if (idx >= 0) appData.services[idx] = { id: editId, name, price, duration, desc };
+  } else {
+    appData.services.push({ id: 'sv_' + Date.now(), name, price, duration, desc });
+  }
+
+  await persistConfig();
+  clearServiceForm();
+  refreshAllUI();
+  showToast('✓ 服務項目已儲存並即時同步');
+};
+
+window.deleteServiceItem = async function(id) {
+  if (!(await uiConfirm('刪除項目', '確定要刪除此服務項目嗎？', '刪除', true))) return;
+  appData.services = appData.services.filter(s => s.id !== id);
+  selectedServiceIds = selectedServiceIds.filter(sid => sid !== id);
+  await persistConfig();
+  refreshAllUI();
+  showToast('已刪除服務項目');
+};
+
+// Tab 3: 抬頭設定
+window.saveHeaderConfig = async function() {
+  const title = document.getElementById('cfgTitle').value.trim();
+  const subtitle = document.getElementById('cfgSubtitle').value.trim();
+  const notice = document.getElementById('cfgNotice').value.trim();
+  if (!title) {
+    await uiAlert('標題不能留空', '請輸入工作室主標題。');
+    return;
+  }
+  appData.header = { title, subtitle, notice };
+  await persistConfig();
+  renderHeader();
+  showToast('✓ 抬頭設定已即時更新');
+};
+
+// Tab 4: 公休日與管理密碼
+window.addClosedDate = async function() {
+  const d = document.getElementById('newClosedDate').value;
+  if (!d) return;
+  if (!appData.closedDates.includes(d)) {
+    appData.closedDates.push(d);
+    appData.closedDates.sort();
+    await persistConfig();
+    renderClosedDates();
+    renderTimeSlots();
+    showToast(`已將 ${d} 設為公休日`);
+  }
+  document.getElementById('newClosedDate').value = '';
+};
+
+window.removeClosedDate = async function(d) {
+  appData.closedDates = appData.closedDates.filter(x => x !== d);
+  await persistConfig();
+  renderClosedDates();
+  renderTimeSlots();
+  showToast(`已取消 ${d} 公休`);
+};
+
+function renderClosedDates() {
+  const el = document.getElementById('closedDateList');
+  if (!appData.closedDates.length) {
+    el.innerHTML = '<div style="font-size:12px; color:var(--muted);">目前無設定公休日</div>';
+    return;
+  }
+  el.innerHTML = appData.closedDates.map(d => `
+    <div class="admin-list-item row-between" style="padding:8px 12px;">
+      <span style="font-size:13px;">${d}</span>
+      <button class="danger-btn" onclick="removeClosedDate('${d}')">移除</button>
+    </div>
+  `).join('');
+}
+
+window.updateAdminPin = async function() {
+  const p1 = document.getElementById('newAdminPin').value.trim();
+  const p2 = document.getElementById('confirmAdminPin').value.trim();
+  if (p1.length < 4 || p1 !== p2) {
+    await uiAlert('密碼格式不符', '密碼長度需至少 4 碼，且兩次輸入必須完全相同。');
+    return;
+  }
+  appData.pin = p1;
+  await persistConfig();
+  document.getElementById('newAdminPin').value = '';
+  document.getElementById('confirmAdminPin').value = '';
+  showToast('✓ 後台管理密碼已更新');
+};
+
+// 啟動頁面與雲端同步
+function boot() {
+  const today = new Date();
+  const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+  const dateInput = document.getElementById('bookDate');
+  dateInput.min = todayStr;
+  dateInput.value = todayStr;
+
+  refreshAllUI();
+  initCloudSync();
+}
+
+boot();
+</script>
+</body>
+</html>
